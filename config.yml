@@ -1,0 +1,19 @@
+### STAFFCHAT CONFIGURATION ###
+# %player% - Playername (if it is a player, or else "CONSOLE")
+# %message% - Message
+# %server% - Sender's server name (if it is a player, or else "Server")
+# You can use & color tags.
+# Change 'use-shortcut' to true to use a shortcut in your server. (For example: "!hello everyone" would send "hello everyone" in staffchat) Change the shortcut to any character you want.
+# You can change the command names, don't forget the "/" before it!
+# The command arguments will just go with it. No problem!
+# /screload WILL NOT update the command names. For that, you need to restart your bungeecord server (or reload it).
+# Plugin by Wout_ (www.woutdev.be)
+### STAFFCHAT CONFIGURATION ###
+staffchat-template: "&b[&6StaffChat&b] &2%player%: &e%message%"
+use-shortcut: false
+shortcut: "!"
+command-for-sc: /sc
+command-for-sc-disable: /scdisable
+command-for-sc-reload: /screload
+command-for-sc-toggle: /sctoggle
+command-for-sc-priority: /scpriority

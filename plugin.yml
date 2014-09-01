@@ -1,0 +1,4 @@
+name: BungeeStaffChat
+main: be.bukkit.bungee.staffchat.Main
+author: Wout_
+version: 1.4
