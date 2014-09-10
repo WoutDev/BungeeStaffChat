@@ -19,16 +19,16 @@ public class StaffChat extends Command {
        if (sender instanceof ProxiedPlayer) {
            ProxiedPlayer pp = (ProxiedPlayer) sender;
            if ((!pp.hasPermission("staffchat.use")) && (!pp.hasPermission("staffchat.*"))) {
-               pp.sendMessage(ChatColor.RED + "You don't have permission to execute this command!");
+               pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("no-permission")));
                return;
            }
            if (StaffChatDisable.disabled.contains(pp.getUniqueId())) {
-               pp.sendMessage(ChatColor.RED + "You disabled StaffChat. Enable it first!");
+               pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("sc-disabled-enable-first")));
                return;
            }
            if (StaffChatPriority.priority) {
                if (!pp.hasPermission("staffchat.*") && !pp.hasPermission("staffchat.priority")) {
-                   pp.sendMessage(ChatColor.RED + "You are not allowed to talk if priority mode is enabled!");
+                   pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("not-allowed-priority-mode")));
                    return;
                }
            }
@@ -63,7 +63,7 @@ public class StaffChat extends Command {
                    sb.append(args[i]).append(" ");
                }
                s = sb.toString();
-               server = "Server";
+               server = ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("console-send-message-server"));
                for (ProxiedPlayer pl : ProxyServer.getInstance().getPlayers()) {
                    if ((pl.hasPermission("staffchat.receive")) || (pl.hasPermission("staffchat.*")) || (pl.hasPermission("staffchat.use"))) {
                        if (StaffChatDisable.disabled.contains(pl.getUniqueId())) {
@@ -74,7 +74,7 @@ public class StaffChat extends Command {
                                return;
                            }
                        }
-                       pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", "CONSOLE").replaceAll("%message%", s).replaceAll("%server%", server)));
+                       pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("console-prefix"))).replaceAll("%message%", s).replaceAll("%server%", server)));
                        return;
                    }
                }
@@ -86,7 +86,7 @@ public class StaffChat extends Command {
 
     private boolean checkArgs(CommandSender sender, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(ChatColor.RED + "Please specify message!");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("specify-message")));
             return false;
         }
         return true;

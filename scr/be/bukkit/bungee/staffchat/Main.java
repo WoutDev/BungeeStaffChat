@@ -19,9 +19,11 @@ import net.md_5.bungee.config.YamlConfiguration;
 
 public class Main extends Plugin {
     private static File configFile;
+    private static File langFile;
     private static Configuration configurationFile;
+    private static Configuration languageFile;
     public static Plugin bsc;
-    public static String currentVersion = "1.4";
+    public static String currentVersion = "1.5";
     public static String checkedVersion;
 
     public void onEnable() {
@@ -35,6 +37,14 @@ public class Main extends Plugin {
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new StaffChatPriority(this));
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerChat());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerJoin());
+        BungeeMetricsLite bml = new BungeeMetricsLite(this);
+        bml.start();
+    }
+
+    @Override
+    public void onDisable() {
+        BungeeMetricsLite bml = new BungeeMetricsLite(this);
+        bml.stop();
     }
 
     private void setupConfig() {
@@ -42,6 +52,7 @@ public class Main extends Plugin {
             getDataFolder().mkdir();
         }
         configFile = new File(getDataFolder(), "config.yml");
+        langFile = new File(getDataFolder(), "lang.yml");
         if (!configFile.exists()) {
             try {
                 configFile.createNewFile();
@@ -52,8 +63,23 @@ public class Main extends Plugin {
                 throw new RuntimeException("Error while creating the configuration!", e);
             }
         }
+        if (!langFile.exists()) {
+            try {
+                langFile.createNewFile();
+                InputStream is = getResourceAsStream("lang.yml");
+                OutputStream os = new FileOutputStream(langFile);
+                ByteStreams.copy(is, os);
+            } catch (IOException e) {
+                throw new RuntimeException("Error while creating the language file!", e);
+            }
+        }
         try {
             configurationFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            languageFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(langFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,10 +88,16 @@ public class Main extends Plugin {
     public static Configuration getConfig() {
         return configurationFile;
     }
+    public static Configuration getLang() { return languageFile; }
 
     public void saveConfig() {
         try {
             ConfigurationProvider.getProvider(YamlConfiguration.class).save(getConfig(), configFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            ConfigurationProvider.getProvider(YamlConfiguration.class).save(getLang(), langFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,6 +106,11 @@ public class Main extends Plugin {
     public static void reloadConfig() {
         try {
             configurationFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            languageFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(langFile);
         } catch (IOException e) {
             e.printStackTrace();
         }

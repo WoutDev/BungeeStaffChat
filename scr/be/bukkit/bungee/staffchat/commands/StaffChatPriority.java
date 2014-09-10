@@ -18,14 +18,14 @@ public class StaffChatPriority extends Command {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!sender.hasPermission("staffchat.*") && !sender.hasPermission("staffchat.priority")) {
-            sender.sendMessage(ChatColor.RED + "You don't have permission to execute this command!");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("no-permission")));
             return;
         }
         if (priority) {
-            sender.sendMessage(ChatColor.RED + "You disabled StaffChat priority mode!");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("disabled-staffchat-priority")));
             priority = false;
         } else {
-            sender.sendMessage(ChatColor.GREEN + "You enabled StaffChat priority mode!");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("enabled-staffchat-priority")));
             priority = true;
         }
     }

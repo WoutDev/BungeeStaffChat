@@ -22,20 +22,20 @@ public class StaffChatToggle extends Command {
         if ((sender instanceof ProxiedPlayer)) {
             ProxiedPlayer pp = (ProxiedPlayer) sender;
             if ((!pp.hasPermission("staffchat.toggle")) && (!pp.hasPermission("staffchat.*"))) {
-                pp.sendMessage(ChatColor.RED + "You don't have permission to execute this command!");
+                pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("no-permission")));
                 return;
             }
             UUID ppuuid = pp.getUniqueId();
             if (toggledPlayers.contains(ppuuid)) {
-                pp.sendMessage(ChatColor.RED + "You have disabled StaffChat-only!");
+                pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("disabled-staffchat-only")));
                 toggledPlayers.remove(ppuuid);
                 return;
             }
-            pp.sendMessage(ChatColor.GREEN + "You have enabled StaffChat-only!");
+            pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("enabled-staffchat-only")));
             toggledPlayers.add(ppuuid);
             return;
         }
-        sender.sendMessage(ChatColor.RED + "You can't use the StaffChat toggle as console.");
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("console-trys-to-toggle-staffchat")));
     }
 }
 

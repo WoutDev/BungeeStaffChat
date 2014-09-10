@@ -23,18 +23,18 @@ public class StaffChatDisable extends Command {
             ProxiedPlayer pp = (ProxiedPlayer) sender;
             if ((pp.hasPermission("staffchat.disable")) || (pp.hasPermission("staffchat.*"))) {
                 if (disabled.contains(pp.getUniqueId())) {
-                    pp.sendMessage(ChatColor.GREEN + "You enabled the staffchat again!");
+                    pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("enabled-staffchat")));
                     disabled.remove(pp.getUniqueId());
                     return;
                 }
-                pp.sendMessage(ChatColor.RED + "You disabled the staffchat!");
+                pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("disabled-staffchat")));
                 disabled.add(pp.getUniqueId());
                 return;
             }
-            pp.sendMessage(ChatColor.RED + "You don't have permission to execute this command!");
+            pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("no-permission")));
             return;
         }
-        sender.sendMessage("You can't disable the staffchat as an console.");
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("console-trys-to-disable-staffchat")));
     }
 }
 

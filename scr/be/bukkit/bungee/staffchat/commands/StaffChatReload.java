@@ -17,14 +17,14 @@ public class StaffChatReload extends Command {
             ProxiedPlayer pp = (ProxiedPlayer) sender;
             if ((pp.hasPermission("staffchat.reload")) || (pp.hasPermission("staffchat.*"))) {
                 Main.reloadConfig();
-                pp.sendMessage(ChatColor.GREEN + "Reloaded!");
+                pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("reload")));
             } else {
-                pp.sendMessage(ChatColor.RED + "You don't have permission to execute this command!");
+                pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("no-permission")));
                 return;
             }
         } else {
             Main.reloadConfig();
-            sender.sendMessage(ChatColor.GREEN + "Reloaded!");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("reload")));
         }
     }
 }
