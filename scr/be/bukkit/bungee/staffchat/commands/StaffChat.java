@@ -40,17 +40,25 @@ public class StaffChat extends Command {
                s = sb.toString();
                server = ((ProxiedPlayer) sender).getServer().getInfo().getName();
                for (ProxiedPlayer pl : ProxyServer.getInstance().getPlayers()) {
-                   if ((pl.hasPermission("staffchat.receive")) || (pl.hasPermission("staffchat.*")) || (pl.hasPermission("staffchat.use"))) {
+                   System.out.println("1: " + pl.getName());
+                   if (pp.getUniqueId().equals(pl.getUniqueId())) {
+                       pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", pp.getName()).replaceAll("%message%", s)).replaceAll("%server%", server));
+                       continue;
+                   }
+                   System.out.println("2: " + pl.getName());
+                   if (pl.hasPermission("staffchat.receive") || pl.hasPermission("staffchat.*") || pl.hasPermission("staffchat.use")) {
                        if (StaffChatDisable.disabled.contains(pl.getUniqueId())) {
-                           return;
+                           continue;
                        }
+                       System.out.println("3: " + pl.getName());
                        if (StaffChatPriority.priority) {
                            if (!pl.hasPermission("staffchat.priority") && !pl.hasPermission("staffchat.*")) {
-                               return;
+                               continue;
                            }
                        }
+                       System.out.println("4: " + pl.getName());
                        pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", pp.getName()).replaceAll("%message%", s)).replaceAll("%server%", server));
-                       return;
+                       continue;
                    }
                }
            } else {
@@ -65,17 +73,20 @@ public class StaffChat extends Command {
                s = sb.toString();
                server = ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("console-send-message-server"));
                for (ProxiedPlayer pl : ProxyServer.getInstance().getPlayers()) {
-                   if ((pl.hasPermission("staffchat.receive")) || (pl.hasPermission("staffchat.*")) || (pl.hasPermission("staffchat.use"))) {
+                   System.out.println("1: " + pl.getName());
+                   if (pl.hasPermission("staffchat.receive") || pl.hasPermission("staffchat.*") || pl.hasPermission("staffchat.use")) {
                        if (StaffChatDisable.disabled.contains(pl.getUniqueId())) {
-                           return;
+                           continue;
                        }
+                       System.out.println("2: " + pl.getName());
                        if (StaffChatPriority.priority) {
                            if (!pl.hasPermission("staffchat.priority") && !pl.hasPermission("staffchat.*")) {
-                               return;
+                               continue;
                            }
                        }
+                       System.out.println("3: " + pl.getName());
                        pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("console-prefix"))).replaceAll("%message%", s).replaceAll("%server%", server)));
-                       return;
+                       continue;
                    }
                }
            } else {

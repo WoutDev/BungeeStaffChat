@@ -23,7 +23,7 @@ public class Main extends Plugin {
     private static Configuration configurationFile;
     private static Configuration languageFile;
     public static Plugin bsc;
-    public static String currentVersion = "1.5";
+    public static String currentVersion = "1.5.2";
     public static String checkedVersion;
 
     public void onEnable() {

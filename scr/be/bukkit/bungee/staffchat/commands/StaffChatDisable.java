@@ -21,7 +21,7 @@ public class StaffChatDisable extends Command {
     public void execute(CommandSender sender, String[] args) {
         if (sender instanceof ProxiedPlayer) {
             ProxiedPlayer pp = (ProxiedPlayer) sender;
-            if ((pp.hasPermission("staffchat.disable")) || (pp.hasPermission("staffchat.*"))) {
+            if (pp.hasPermission("staffchat.disable") || pp.hasPermission("staffchat.*")) {
                 if (disabled.contains(pp.getUniqueId())) {
                     pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("enabled-staffchat")));
                     disabled.remove(pp.getUniqueId());
