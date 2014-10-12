@@ -8,6 +8,9 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class StaffChat extends Command {
     public StaffChat(Main instance) {
         super(Main.getConfig().getString("command-for-sc").substring(1));
@@ -40,25 +43,22 @@ public class StaffChat extends Command {
                s = sb.toString();
                server = ((ProxiedPlayer) sender).getServer().getInfo().getName();
                for (ProxiedPlayer pl : ProxyServer.getInstance().getPlayers()) {
-                   System.out.println("1: " + pl.getName());
-                   if (pp.getUniqueId().equals(pl.getUniqueId())) {
-                       pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", pp.getName()).replaceAll("%message%", s)).replaceAll("%server%", server));
-                       continue;
-                   }
-                   System.out.println("2: " + pl.getName());
                    if (pl.hasPermission("staffchat.receive") || pl.hasPermission("staffchat.*") || pl.hasPermission("staffchat.use")) {
                        if (StaffChatDisable.disabled.contains(pl.getUniqueId())) {
                            continue;
                        }
-                       System.out.println("3: " + pl.getName());
                        if (StaffChatPriority.priority) {
                            if (!pl.hasPermission("staffchat.priority") && !pl.hasPermission("staffchat.*")) {
                                continue;
                            }
                        }
-                       System.out.println("4: " + pl.getName());
-                       pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", pp.getName()).replaceAll("%message%", s)).replaceAll("%server%", server));
-                       continue;
+                       if (pl.hasPermission("staffchat.sc.format") || pl.hasPermission("staffchat.*")) {
+                           pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", pp.getName()).replaceAll("%message%", Matcher.quoteReplacement(s))).replaceAll("%server%", server));
+                           continue;
+                       } else {
+                           pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", pp.getName()).replaceAll("%message%", ChatColor.stripColor(Matcher.quoteReplacement(s)))).replaceAll("%server%", server));
+                           continue;
+                       }
                    }
                }
            } else {
@@ -73,19 +73,16 @@ public class StaffChat extends Command {
                s = sb.toString();
                server = ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("console-send-message-server"));
                for (ProxiedPlayer pl : ProxyServer.getInstance().getPlayers()) {
-                   System.out.println("1: " + pl.getName());
                    if (pl.hasPermission("staffchat.receive") || pl.hasPermission("staffchat.*") || pl.hasPermission("staffchat.use")) {
                        if (StaffChatDisable.disabled.contains(pl.getUniqueId())) {
                            continue;
                        }
-                       System.out.println("2: " + pl.getName());
                        if (StaffChatPriority.priority) {
                            if (!pl.hasPermission("staffchat.priority") && !pl.hasPermission("staffchat.*")) {
                                continue;
                            }
                        }
-                       System.out.println("3: " + pl.getName());
-                       pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("console-prefix"))).replaceAll("%message%", s).replaceAll("%server%", server)));
+                       pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("console-prefix"))).replaceAll("%message%", Matcher.quoteReplacement(s)).replaceAll("%server%", server)));
                        continue;
                    }
                }

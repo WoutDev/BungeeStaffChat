@@ -10,6 +10,8 @@
 # Plugin by Wout_ (www.woutdev.be)
 ### STAFFCHAT CONFIGURATION ###
 staffchat-template: "&b[&6StaffChat&b] &2%player%: &e%message%"
+msg-sending: "&8[&7Me -> %target%&8] &f%message%"
+msg-receiving: "&8[&7%from% -> Me&8] &f%message%"
 use-shortcut: false
 shortcut: "!"
 command-for-sc: /sc
@@ -17,3 +19,4 @@ command-for-sc-disable: /scdisable
 command-for-sc-reload: /screload
 command-for-sc-toggle: /sctoggle
 command-for-sc-priority: /scpriority
+command-for-sc-msg: /scmsg

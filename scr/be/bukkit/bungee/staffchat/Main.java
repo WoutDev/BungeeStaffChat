@@ -23,7 +23,7 @@ public class Main extends Plugin {
     private static Configuration configurationFile;
     private static Configuration languageFile;
     public static Plugin bsc;
-    public static String currentVersion = "1.5.2";
+    public static String currentVersion = "1.5.3";
     public static String checkedVersion;
 
     public void onEnable() {
@@ -35,6 +35,7 @@ public class Main extends Plugin {
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new StaffChatDisable(this));
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new StaffChatInfo(this));
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new StaffChatPriority(this));
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new StaffChatMsg(this));
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerChat());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerJoin());
         BungeeMetricsLite bml = new BungeeMetricsLite(this);
