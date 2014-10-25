@@ -20,3 +20,4 @@ command-for-sc-reload: /screload
 command-for-sc-toggle: /sctoggle
 command-for-sc-priority: /scpriority
 command-for-sc-msg: /scmsg
+command-for-sc-reply: /gr

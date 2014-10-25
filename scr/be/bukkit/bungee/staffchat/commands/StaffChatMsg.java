@@ -1,17 +1,22 @@
 package be.bukkit.bungee.staffchat.commands;
 
 import be.bukkit.bungee.staffchat.Main;
+import be.bukkit.bungee.staffchat.objects.PrivateMessage;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 
 /**
  * Created by root on 5-10-2014.
  */
 public class StaffChatMsg extends Command {
+    public static List<PrivateMessage> privateMessageList = new ArrayList<PrivateMessage>();
+
     public StaffChatMsg(Main instance) {
         super(Main.getConfig().getString("command-for-sc-msg").substring(1));
     }
@@ -42,16 +47,15 @@ public class StaffChatMsg extends Command {
             if (pp.hasPermission("staffchat.msg.format") || pp.hasPermission("staffchat.*")) {
                 target.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("msg-receiving").replaceAll("%target%", target.getName()).replaceAll("%message%", Matcher.quoteReplacement(msg))).replaceAll("%from%", pp.getName()));
                 pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("msg-sending").replaceAll("%target%", target.getName()).replaceAll("%message%", Matcher.quoteReplacement(msg))).replaceAll("%from%", pp.getName()));
-                return;
+                privateMessageList.add(new PrivateMessage(((ProxiedPlayer) sender).getUniqueId(), target.getUniqueId(), msg));
             } else {
-                target.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("msg-receiving").replaceAll("%target%", target.getName()).replaceAll("%from%", pp.getName()).replaceAll("%message%", ChatColor.stripColor(Matcher.quoteReplacement(msg)))));
-                pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("msg-sending").replaceAll("%target%", target.getName()).replaceAll("%from%", pp.getName()).replaceAll("%message%", ChatColor.stripColor(Matcher.quoteReplacement(msg)))));
-                return;
+                target.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("msg-receiving").replaceAll("%target%", target.getName()).replaceAll("%from%", pp.getName())).replaceAll("%message%", ChatColor.stripColor(Matcher.quoteReplacement(msg))));
+                pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("msg-sending").replaceAll("%target%", target.getName()).replaceAll("%from%", pp.getName())).replaceAll("%message%", ChatColor.stripColor(Matcher.quoteReplacement(msg))));
+                privateMessageList.add(new PrivateMessage(((ProxiedPlayer) sender).getUniqueId(), target.getUniqueId(), msg));
             }
         } else {
             target.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("msg-receiving").replaceAll("%target%", target.getName()).replaceAll("%message%", Matcher.quoteReplacement(msg))).replaceAll("%from%", "CONSOLE"));
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("msg-sending").replaceAll("%target%", target.getName()).replaceAll("%message%", Matcher.quoteReplacement(msg))).replaceAll("%from%", "CONSOLE"));
-            return;
         }
     }
 }

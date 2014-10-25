@@ -37,8 +37,8 @@ public class StaffChat extends Command {
            }
            if (checkArgs(sender, args)) {
                StringBuilder sb = new StringBuilder("");
-               for (int i = 0; i < args.length; i++) {
-                   sb.append(args[i]).append(" ");
+               for (String arg : args) {
+                   sb.append(arg).append(" ");
                }
                s = sb.toString();
                server = ((ProxiedPlayer) sender).getServer().getInfo().getName();
@@ -52,23 +52,19 @@ public class StaffChat extends Command {
                                continue;
                            }
                        }
-                       if (pl.hasPermission("staffchat.sc.format") || pl.hasPermission("staffchat.*")) {
+                       if (pp.hasPermission("staffchat.sc.format") || pp.hasPermission("staffchat.*")) {
                            pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", pp.getName()).replaceAll("%message%", Matcher.quoteReplacement(s))).replaceAll("%server%", server));
-                           continue;
                        } else {
-                           pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", pp.getName()).replaceAll("%message%", ChatColor.stripColor(Matcher.quoteReplacement(s)))).replaceAll("%server%", server));
-                           continue;
+                           pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", pp.getName())).replaceAll("%message%", Matcher.quoteReplacement(s)).replaceAll("%server%", ChatColor.translateAlternateColorCodes('&', server)));
                        }
                    }
                }
-           } else {
-               return;
            }
        } else {
            if (checkArgs(sender, args)) {
                StringBuilder sb = new StringBuilder("");
-               for (int i = 0; i < args.length; i++) {
-                   sb.append(args[i]).append(" ");
+               for (String arg : args) {
+                   sb.append(arg).append(" ");
                }
                s = sb.toString();
                server = ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("console-send-message-server"));
@@ -83,11 +79,8 @@ public class StaffChat extends Command {
                            }
                        }
                        pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getConfig().getString("staffchat-template").replaceAll("%player%", ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("console-prefix"))).replaceAll("%message%", Matcher.quoteReplacement(s)).replaceAll("%server%", server)));
-                       continue;
                    }
                }
-           } else {
-               return;
            }
        }
    }
