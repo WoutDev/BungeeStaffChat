@@ -1,6 +1,6 @@
-package be.bukkit.bungee.staffchat.commands;
+package staffchat.commands;
 
-import be.bukkit.bungee.staffchat.Main;
+import staffchat.Main;
 
 import java.util.ArrayList;
 import java.util.List;

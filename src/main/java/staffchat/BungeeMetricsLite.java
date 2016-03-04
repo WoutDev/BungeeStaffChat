@@ -5,7 +5,7 @@
  * Adapted from Plugin-Metrics by Hidendra (Tyler Blair): https://github.com/Hidendra/Plugin-Metrics
  */
 
-package be.bukkit.bungee.staffchat;
+package staffchat;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

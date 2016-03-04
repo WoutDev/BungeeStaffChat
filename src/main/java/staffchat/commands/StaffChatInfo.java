@@ -1,6 +1,6 @@
-package be.bukkit.bungee.staffchat.commands;
+package staffchat.commands;
 
-import be.bukkit.bungee.staffchat.Main;
+import staffchat.Main;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;

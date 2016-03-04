@@ -1,6 +1,6 @@
-package be.bukkit.bungee.staffchat.listeners;
+package staffchat.listeners;
 
-import be.bukkit.bungee.staffchat.Main;
+import staffchat.Main;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;

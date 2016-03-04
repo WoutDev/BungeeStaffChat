@@ -1,6 +1,6 @@
-package be.bukkit.bungee.staffchat.objects;
+package staffchat.objects;
 
-import be.bukkit.bungee.staffchat.Main;
+import staffchat.Main;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 

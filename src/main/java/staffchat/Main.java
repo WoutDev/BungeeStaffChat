@@ -1,8 +1,8 @@
-package be.bukkit.bungee.staffchat;
+package staffchat;
 
-import be.bukkit.bungee.staffchat.commands.*;
-import be.bukkit.bungee.staffchat.listeners.PlayerChat;
-import be.bukkit.bungee.staffchat.listeners.PlayerJoin;
+import staffchat.commands.*;
+import staffchat.listeners.PlayerChat;
+import staffchat.listeners.PlayerJoin;
 import com.google.common.io.ByteStreams;
 
 import java.io.File;

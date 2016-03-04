@@ -1,7 +1,7 @@
-package be.bukkit.bungee.staffchat.commands;
+package staffchat.commands;
 
-import be.bukkit.bungee.staffchat.Main;
-import be.bukkit.bungee.staffchat.objects.PrivateMessage;
+import staffchat.Main;
+import staffchat.objects.PrivateMessage;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

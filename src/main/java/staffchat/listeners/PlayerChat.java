@@ -1,7 +1,7 @@
-package be.bukkit.bungee.staffchat.listeners;
+package staffchat.listeners;
 
-import be.bukkit.bungee.staffchat.Main;
-import be.bukkit.bungee.staffchat.commands.StaffChatToggle;
+import staffchat.Main;
+import staffchat.commands.StaffChatToggle;
 
 import net.md_5.bungee.api.connection.Connection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

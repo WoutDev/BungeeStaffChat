@@ -1,6 +1,6 @@
-package be.bukkit.bungee.staffchat.commands;
+package staffchat.commands;
 
-import be.bukkit.bungee.staffchat.Main;
+import staffchat.Main;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -9,7 +9,6 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class StaffChat extends Command {
     public StaffChat(Main instance) {
