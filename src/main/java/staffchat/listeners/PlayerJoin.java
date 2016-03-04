@@ -34,7 +34,7 @@ public class PlayerJoin implements Listener
 
     private boolean checkForUpdate()
     {
-        String v = Main.currentVersion;
+        String v = Main.CURRENT_VERSION;
         try
         {
             v = new Scanner(new URL("http://www.woutdev.be/bungeestaffchat/version.html").openStream(),
@@ -44,7 +44,7 @@ public class PlayerJoin implements Listener
         {
             e.printStackTrace();
         }
-        if (!v.equalsIgnoreCase(Main.currentVersion))
+        if (!v.equalsIgnoreCase(Main.CURRENT_VERSION))
         {
             Main.checkedVersion = v;
             return true;
