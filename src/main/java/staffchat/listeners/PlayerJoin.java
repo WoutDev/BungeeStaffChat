@@ -15,20 +15,24 @@ import java.util.Scanner;
  */
 public class PlayerJoin implements Listener
 {
-
     @EventHandler
-    public void onPlayerJoin(PostLoginEvent e)
+    public void onPlayerJoin(final PostLoginEvent e)
     {
         if (e.getPlayer().hasPermission("staffchat.update") || e.getPlayer().hasPermission("staffchat.*"))
         {
-            if (checkForUpdate())
-            {
-                e.getPlayer()
-                 .sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                                                     "&6There is a newer version of &3BungeeStaffChat &6available! v&2" +
-                                                                     Main.checkedVersion + " &6is downloadable now!"));
-                return;
-            }
+            Main.bsc.getProxy().getScheduler().runAsync(Main.bsc, new Runnable() {
+                @Override
+                public void run()
+                {
+                    if (checkForUpdate())
+                    {
+                        e.getPlayer()
+                         .sendMessage(ChatColor.translateAlternateColorCodes('&',
+                                                                             "&6There is a newer version of &3BungeeStaffChat &6available! v&2" +
+                                                                             Main.checkedVersion + " &6is downloadable now!"));
+                    }
+                }
+            });
         }
     }
 
