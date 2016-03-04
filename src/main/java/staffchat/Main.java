@@ -1,32 +1,59 @@
 package staffchat;
 
-import staffchat.commands.*;
-import staffchat.listeners.PlayerChat;
-import staffchat.listeners.PlayerJoin;
 import com.google.common.io.ByteStreams;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
+import staffchat.commands.*;
+import staffchat.listeners.PlayerChat;
+import staffchat.listeners.PlayerJoin;
 
-public class Main extends Plugin {
+import java.io.*;
+
+public class Main extends Plugin
+{
+    public static Plugin bsc;
+    public static String currentVersion = "1.5.3";
+    public static String checkedVersion;
     private static File configFile;
     private static File langFile;
     private static Configuration configurationFile;
     private static Configuration languageFile;
-    public static Plugin bsc;
-    public static String currentVersion = "1.5.3";
-    public static String checkedVersion;
 
-    public void onEnable() {
+    public static Configuration getConfig()
+    {
+        return configurationFile;
+    }
+
+    public static Configuration getLang()
+    {
+        return languageFile;
+    }
+
+    public static void reloadConfig()
+    {
+        try
+        {
+            configurationFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        try
+        {
+            languageFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(langFile);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void onEnable()
+    {
         bsc = this;
         setupConfig();
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new StaffChat(this));
@@ -44,76 +71,82 @@ public class Main extends Plugin {
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable()
+    {
         BungeeMetricsLite bml = new BungeeMetricsLite(this);
         bml.stop();
     }
 
-    private void setupConfig() {
-        if (!getDataFolder().exists()) {
+    private void setupConfig()
+    {
+        if (!getDataFolder().exists())
+        {
             getDataFolder().mkdir();
         }
         configFile = new File(getDataFolder(), "config.yml");
         langFile = new File(getDataFolder(), "lang.yml");
-        if (!configFile.exists()) {
-            try {
+        if (!configFile.exists())
+        {
+            try
+            {
                 configFile.createNewFile();
                 InputStream is = getResourceAsStream("config.yml");
                 OutputStream os = new FileOutputStream(configFile);
                 ByteStreams.copy(is, os);
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 throw new RuntimeException("Error while creating the configuration!", e);
             }
         }
-        if (!langFile.exists()) {
-            try {
+        if (!langFile.exists())
+        {
+            try
+            {
                 langFile.createNewFile();
                 InputStream is = getResourceAsStream("lang.yml");
                 OutputStream os = new FileOutputStream(langFile);
                 ByteStreams.copy(is, os);
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 throw new RuntimeException("Error while creating the language file!", e);
             }
         }
-        try {
+        try
+        {
             configurationFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
-        try {
+        try
+        {
             languageFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(langFile);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
 
-    public static Configuration getConfig() {
-        return configurationFile;
-    }
-    public static Configuration getLang() { return languageFile; }
-
-    public void saveConfig() {
-        try {
+    public void saveConfig()
+    {
+        try
+        {
             ConfigurationProvider.getProvider(YamlConfiguration.class).save(getConfig(), configFile);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
-        try {
+        try
+        {
             ConfigurationProvider.getProvider(YamlConfiguration.class).save(getLang(), langFile);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-    }
-
-    public static void reloadConfig() {
-        try {
-            configurationFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            languageFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(langFile);
-        } catch (IOException e) {
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
