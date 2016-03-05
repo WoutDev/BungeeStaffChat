@@ -27,7 +27,7 @@ public class StaffChatReply extends Command
             {
                 if (args.length <= 0)
                 {
-                    pp.sendMessage(ChatColor.RED + "Please specify message!");
+                    pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("sc-reply-specify-message")));
                     return;
                 }
                 StringBuilder sb = new StringBuilder();
@@ -49,10 +49,10 @@ public class StaffChatReply extends Command
                                                          msg);
                             return;
                         }
-                        pp.sendMessage(ChatColor.RED + "Your receiver is offline!");
+                        pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("sc-reply-receiver-offline")));
                     }
                 }
-                pp.sendMessage(ChatColor.RED + "You can't reply because nobody sended you a message before!");
+                pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("sc-reply-reply-impossible")));
                 return;
             }
             else
@@ -62,7 +62,7 @@ public class StaffChatReply extends Command
         }
         else
         {
-            sender.sendMessage("You can't quick reply as console!");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("sc-reply-reply-console")));
             return;
         }
     }

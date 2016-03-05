@@ -15,4 +15,7 @@ enabled-staffchat-only: "&aYou enabled StaffChat-only!"
 console-trys-to-toggle-staffchat: "&cYou can't use the StaffChat toggle as console!"
 msg-invalid-args: "&cPlease give us an name and message."
 msg-given-player-offline: "&cGiven player (%target%) is not online."
-
+sc-reply-receiver-offline: "&cYour receiver is offline!"
+sc-reply-reply-impossible: "&cYou can't reply because nobody sended you a message before!"
+sc-reply-reply-console: "You can't quick reply as console!"
+sc-reply-specify-message: "&cPlease specify message!"
