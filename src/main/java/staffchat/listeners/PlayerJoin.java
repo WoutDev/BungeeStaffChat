@@ -5,10 +5,7 @@ import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import staffchat.Main;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Scanner;
+import staffchat.updater.PluginUpdater;
 
 /**
  * Created by root on 31-8-2014.
@@ -20,39 +17,22 @@ public class PlayerJoin implements Listener
     {
         if (e.getPlayer().hasPermission("staffchat.update") || e.getPlayer().hasPermission("staffchat.*"))
         {
-            Main.bsc.getProxy().getScheduler().runAsync(Main.bsc, new Runnable() {
+            Main.getBsc().getProxy().getScheduler().runAsync(Main.getBsc(), new Runnable()
+            {
                 @Override
                 public void run()
                 {
-                    if (checkForUpdate())
+                    PluginUpdater updater = new PluginUpdater();
+                    if (updater.updateAvailable())
                     {
                         e.getPlayer()
                          .sendMessage(ChatColor.translateAlternateColorCodes('&',
                                                                              "&6There is a newer version of &3BungeeStaffChat &6available! v&2" +
-                                                                             Main.checkedVersion + " &6is downloadable now!"));
+                                                                             updater.getLatestVersion() +
+                                                                             " &6is downloadable now!"));
                     }
                 }
             });
         }
-    }
-
-    private boolean checkForUpdate()
-    {
-        String v = Main.CURRENT_VERSION;
-        try
-        {
-            v = new Scanner(new URL("http://www.woutdev.be/bungeestaffchat/version.html").openStream(),
-                            "UTF-8").useDelimiter("\\A").next();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        if (!v.equalsIgnoreCase(Main.CURRENT_VERSION))
-        {
-            Main.checkedVersion = v;
-            return true;
-        }
-        return false;
     }
 }

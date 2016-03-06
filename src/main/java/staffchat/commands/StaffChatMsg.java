@@ -37,7 +37,7 @@ public class StaffChatMsg extends Command
                     ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("msg-invalid-args")));
             return;
         }
-        ProxiedPlayer target = Main.bsc.getProxy().getPlayer(args[0]);
+        ProxiedPlayer target = Main.getBsc().getProxy().getPlayer(args[0]);
         if (target == null)
         {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang()

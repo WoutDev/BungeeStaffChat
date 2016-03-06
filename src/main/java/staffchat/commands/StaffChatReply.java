@@ -27,7 +27,9 @@ public class StaffChatReply extends Command
             {
                 if (args.length <= 0)
                 {
-                    pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("sc-reply-specify-message")));
+                    pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang()
+                                                                                   .getString(
+                                                                                           "sc-reply-specify-message")));
                     return;
                 }
                 StringBuilder sb = new StringBuilder();
@@ -40,19 +42,23 @@ public class StaffChatReply extends Command
                 {
                     if (pm.getReceiver().equals(pp.getUniqueId()))
                     {
-                        if (Main.bsc.getProxy().getPlayer(pm.getSender()) != null)
+                        if (Main.getBsc().getProxy().getPlayer(pm.getSender()) != null)
                         {
-                            Main.bsc.getProxy()
-                                    .getPluginManager()
-                                    .dispatchCommand(pp, Main.getConfig().getString("command-for-sc-msg").substring(1) +
-                                                         " " + Main.bsc.getProxy().getPlayer(pm.getSender()) + " " +
-                                                         msg);
+                            Main.getBsc().getProxy()
+                                .getPluginManager()
+                                .dispatchCommand(pp, Main.getConfig().getString("command-for-sc-msg").substring(1) +
+                                                     " " + Main.getBsc().getProxy().getPlayer(pm.getSender()) + " " +
+                                                     msg);
                             return;
                         }
-                        pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("sc-reply-receiver-offline")));
+                        pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang()
+                                                                                       .getString(
+                                                                                               "sc-reply-receiver-offline")));
                     }
                 }
-                pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("sc-reply-reply-impossible")));
+                pp.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang()
+                                                                               .getString(
+                                                                                       "sc-reply-reply-impossible")));
                 return;
             }
             else
@@ -62,7 +68,8 @@ public class StaffChatReply extends Command
         }
         else
         {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("sc-reply-reply-console")));
+            sender.sendMessage(
+                    ChatColor.translateAlternateColorCodes('&', Main.getLang().getString("sc-reply-reply-console")));
             return;
         }
     }

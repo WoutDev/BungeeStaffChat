@@ -11,9 +11,9 @@ import java.util.UUID;
  */
 public class PrivateMessage
 {
-    public UUID sender;
-    public UUID receiver;
-    public String message;
+    private UUID sender;
+    private UUID receiver;
+    private String message;
 
     public PrivateMessage(UUID sender, UUID receiver, String message)
     {
@@ -29,7 +29,7 @@ public class PrivateMessage
 
     public String getMessage()
     {
-        ProxiedPlayer sender = Main.bsc.getProxy().getPlayer(getSender());
+        ProxiedPlayer sender = Main.getBsc().getProxy().getPlayer(getSender());
         if (sender.hasPermission("staffchat.msg.format") || sender.hasPermission("staffchat.*"))
         {
             return ChatColor.translateAlternateColorCodes('&', message);

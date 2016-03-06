@@ -9,14 +9,14 @@ import staffchat.commands.*;
 import staffchat.listeners.PlayerChat;
 import staffchat.listeners.PlayerJoin;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 
 public class Main extends Plugin
 {
-    public static final String CURRENT_VERSION = "1.6.0";
-    public static Plugin bsc;
-    public static String checkedVersion;
+    private static final String CURRENT_VERSION = "1.6.0";
+    private static Plugin bsc;
     private static File configFile;
     private static File langFile;
     private static Configuration configurationFile;
@@ -50,6 +50,16 @@ public class Main extends Plugin
         {
             e.printStackTrace();
         }
+    }
+
+    public static String getCurrentVersion()
+    {
+        return CURRENT_VERSION;
+    }
+
+    public static Plugin getBsc()
+    {
+        return bsc;
     }
 
     public void onEnable()
