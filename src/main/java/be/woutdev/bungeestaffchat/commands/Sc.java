@@ -69,12 +69,13 @@ public class Sc extends Command
             }
 
             String target = sender instanceof ProxiedPlayer ? sender.getName() : "CONSOLE";
+            String server = sender instanceof ProxiedPlayer ? ((ProxiedPlayer) sender).getServer().getInfo().getName() : "N/A";
 
             String scMessage = BungeeStaffChat.getInstance()
                                               .getScLayout()
                                               .replaceAll("%player%",
                                                           Matcher.quoteReplacement(target))
-                                              .replaceAll("%message%", Matcher.quoteReplacement(msg));
+                                              .replaceAll("%message%", Matcher.quoteReplacement(msg).replaceAll("%server%", Matcher.quoteReplacement(server)));
 
             if (BungeeStaffChat.getInstance().isBungeePerms())
             {

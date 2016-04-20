@@ -71,6 +71,9 @@ public class PlayerListener implements Listener
                 System.out.println(BungeeStaffChat.getInstance().getShortcut());
                 if (e.getMessage().toCharArray()[0] == BungeeStaffChat.getInstance().getShortcut())
                 {
+                    if (e.getMessage().length() == 1)
+                        return;
+
                     e.setCancelled(true);
 
                     BungeeStaffChat.getInstance()

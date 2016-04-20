@@ -68,6 +68,8 @@ public class ScMsg extends Command
             builder.append(word).append(" ");
         }
 
+        String server = sender instanceof ProxiedPlayer ? ((ProxiedPlayer) sender).getServer().getInfo().getName() : "N/A";
+
         String msg = builder.toString();
 
         if (sender.hasPermission("sc.format") || sender.hasPermission("sc.*"))
@@ -97,7 +99,7 @@ public class ScMsg extends Command
                                       .getScMsgLayout()
                                       .replaceAll("%target%", Matcher.quoteReplacement(target))
                                       .replaceAll("%message%", Matcher.quoteReplacement(msg))
-                                      .replaceAll(Matcher.quoteReplacement("%from%"), sender.getName());
+                                      .replaceAll(Matcher.quoteReplacement("%from%"), sender.getName()).replaceAll("%server%", server);
 
         ScPlayer targetPlayer = BungeeStaffChat.getInstance()
                                                .getPlayerManager()
