@@ -75,7 +75,8 @@ public class Sc extends Command
                                               .getScLayout()
                                               .replaceAll("%player%",
                                                           Matcher.quoteReplacement(target))
-                                              .replaceAll("%message%", Matcher.quoteReplacement(msg).replaceAll("%server%", Matcher.quoteReplacement(server)));
+                                              .replaceAll("%message%", Matcher.quoteReplacement(msg))
+                                              .replaceAll("%server%", Matcher.quoteReplacement(server));
 
             if (BungeeStaffChat.getInstance().isBungeePerms())
             {
