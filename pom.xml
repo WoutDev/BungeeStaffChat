@@ -7,6 +7,17 @@
     <groupId>be.woutdev</groupId>
     <artifactId>BungeeStaffChat</artifactId>
     <version>2.0-BETA-SNAPSHOT</version>
+    
+    <repositories>
+		<repository>
+			<id>bungeecord-repo</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>
+		<repository>
+			<id>bungeeperms-repo</id>
+			<url>http://repo.wea-ondara.net/repository/public/</url>
+		</repository>
+	</repositories>
 
     <dependencies>
         <dependency>
