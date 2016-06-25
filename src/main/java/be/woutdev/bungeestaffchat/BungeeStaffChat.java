@@ -8,10 +8,17 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.YamlConfiguration;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Wout on 14/04/2016.
@@ -28,8 +35,11 @@ public class BungeeStaffChat extends Plugin
     private String scLayout;
     private String scMsgLayout;
     private String scReplyLayout;
+    private String scSpyLayout;
     private boolean scPriorityEnabled;
     private boolean bungeePerms;
+    private boolean keepLog;
+    private Path logPath;
 
     public static BungeeStaffChat getInstance()
     {
@@ -54,20 +64,21 @@ public class BungeeStaffChat extends Plugin
         playerManager = new ScPlayerManager();
 
         getProxy().getPluginManager()
-                  .registerCommand(this, new Sc(getConfig().getString("sc-command").replaceAll("/", "")));
+                  .registerCommand(this, new Sc(getConfig().getString("sc-command", "/sc").replaceAll("/", "")));
         getProxy().getPluginManager()
-                  .registerCommand(this, new ScDisable(getConfig().getString("scdisable-command").replaceAll("/", "")));
+                  .registerCommand(this, new ScDisable(getConfig().getString("scdisable-command", "/scdisable").replaceAll("/", "")));
         getProxy().getPluginManager()
-                  .registerCommand(this, new ScReload(getConfig().getString("screload-command").replaceAll("/", "")));
+                  .registerCommand(this, new ScReload(getConfig().getString("screload-command", "/screload").replaceAll("/", "")));
         getProxy().getPluginManager()
-                  .registerCommand(this, new ScToggle(getConfig().getString("sctoggle-command").replaceAll("/", "")));
+                  .registerCommand(this, new ScToggle(getConfig().getString("sctoggle-command", "/sctoggle").replaceAll("/", "")));
         getProxy().getPluginManager()
                   .registerCommand(this,
-                                   new ScPriority(getConfig().getString("scpriority-command").replaceAll("/", "")));
+                                   new ScPriority(getConfig().getString("scpriority-command", "/scpriority").replaceAll("/", "")));
         getProxy().getPluginManager()
-                  .registerCommand(this, new ScMsg(getConfig().getString("scmsg-command").replaceAll("/", "")));
+                  .registerCommand(this, new ScMsg(getConfig().getString("scmsg-command", "/scmsg").replaceAll("/", "")));
         getProxy().getPluginManager()
-                  .registerCommand(this, new ScReply(getConfig().getString("screply-command").replaceAll("/", "")));
+                  .registerCommand(this, new ScReply(getConfig().getString("screply-command", "/screply").replaceAll("/", "")));
+        getProxy().getPluginManager().registerCommand(this, new ScSpy(getConfig().getString("scspy-command", "/scspy").replaceAll("/", "")));
         getProxy().getPluginManager().registerCommand(this, new ScInfo());
 
         getProxy().getPluginManager().registerListener(this, new PlayerListener());
@@ -136,11 +147,30 @@ public class BungeeStaffChat extends Plugin
         scLayout = getConfig().getString("sc-layout");
         scMsgLayout = getConfig().getString("scmsg-layout");
         scReplyLayout = getConfig().getString("screply-layout");
-        shortcutEnabled = getConfig().getBoolean("shortcut-enabled");
+        scSpyLayout = getConfig().getString("scspy-layout");
+        shortcutEnabled = getConfig().getBoolean("shortcut-enabled", false);
+        keepLog = getConfig().getBoolean("keep-log", false);
 
         if (shortcutEnabled)
         {
             shortcut = getConfig().getString("shortcut").toCharArray()[0];
+        }
+
+        if (keepLog)
+        {
+            logPath = Paths.get(dirPath.toAbsolutePath().toString(), "staffchat.log");
+
+            if (!Files.exists(logPath))
+            {
+                try
+                {
+                    Files.createFile(logPath);
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -167,6 +197,11 @@ public class BungeeStaffChat extends Plugin
     public String getScLayout()
     {
         return ChatColor.translateAlternateColorCodes('&', scLayout);
+    }
+
+    public String getScSpyLayout()
+    {
+        return scSpyLayout;
     }
 
     public char getShortcut()
@@ -199,6 +234,27 @@ public class BungeeStaffChat extends Plugin
         return bungeePerms;
     }
 
+    public boolean keepLog()
+    {
+        return keepLog;
+    }
+
+    public void appendToLog(String line)
+    {
+        try
+        {
+            BufferedWriter out = Files.newBufferedWriter(logPath, Charset.defaultCharset(),
+                                                         StandardOpenOption.APPEND);
+            out.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append(": ").append(line);
+            out.newLine();
+            out.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public void reload()
     {
         try
@@ -217,11 +273,30 @@ public class BungeeStaffChat extends Plugin
         scLayout = getConfig().getString("sc-layout");
         scMsgLayout = getConfig().getString("scmsg-layout");
         scReplyLayout = getConfig().getString("screply-layout");
-        shortcutEnabled = getConfig().getBoolean("shortcut-enabled");
+        scSpyLayout = getConfig().getString("scspy-layout");
+        shortcutEnabled = getConfig().getBoolean("shortcut-enabled", false);
+        keepLog = getConfig().getBoolean("keep-log", false);
 
         if (shortcutEnabled)
         {
             shortcut = getConfig().getString("shortcut").toCharArray()[0];
+        }
+
+        if (keepLog)
+        {
+            logPath = Paths.get(getDataFolder().toPath().toAbsolutePath().toString(), "staffchat.log");
+
+            if (!Files.exists(logPath))
+            {
+                try
+                {
+                    Files.createFile(logPath);
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

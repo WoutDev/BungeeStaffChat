@@ -10,6 +10,7 @@ public class ScPlayer
     private UUID uniqueId;
     private boolean scDisabled;
     private boolean scToggled;
+    private boolean scSpy;
     private UUID lastMsgSender;
 
     public ScPlayer(UUID uniqueId)
@@ -17,6 +18,7 @@ public class ScPlayer
         this.uniqueId = uniqueId;
         this.scDisabled = false;
         this.scToggled = false;
+        this.scSpy = false;
     }
 
     public UUID getUniqueId()
@@ -52,5 +54,15 @@ public class ScPlayer
     public void setLastMsgSender(UUID lastMsgSender)
     {
         this.lastMsgSender = lastMsgSender;
+    }
+
+    public boolean hasScSpy()
+    {
+        return scSpy;
+    }
+
+    public void setScSpy(boolean scSpy)
+    {
+        this.scSpy = scSpy;
     }
 }

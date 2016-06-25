@@ -5,8 +5,11 @@ sctoggle-command: /sctoggle
 scpriority-command: /scpriority
 scmsg-command: /scmsg
 screply-command: /screply
+scspy-command: /scspy
 sc-layout: "&b[&6StaffChat&b] &2%player%: &e%message%"
 scmsg-layout: "&8[&7Me -> %target%&8] &f%message%"
 screply-layout: "&8[&7%from% -> Me&8] &f%message%"
+scspy-layout: "&7[%from% -> %target%] %message%"
 shortcut-enabled: false
 shortcut: '!'
+keep-log: true

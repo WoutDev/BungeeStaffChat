@@ -85,7 +85,7 @@ public class ScReply extends Command
             msg = ChatColor.translateAlternateColorCodes('&', msg);
         }
 
-        String server = sender instanceof ProxiedPlayer ? ((ProxiedPlayer) sender).getServer().getInfo().getName() : "N/A";
+        String server = ((ProxiedPlayer) sender).getServer().getInfo().getName();
 
         if (BungeeStaffChat.getInstance().isBungeePerms())
         {
@@ -108,13 +108,34 @@ public class ScReply extends Command
                                                                                                         .getPlayer(
                                                                                                                 target.getUniqueId())
                                                                                                         .getName()).replaceAll("%server%", server));
-        sender.sendMessage(new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', BungeeStaffChat.getInstance().getScMsgLayout().replaceAll("%target%", Matcher.quoteReplacement(
-                ProxyServer.getInstance().getPlayer(target.getUniqueId()).getName())).replaceAll("%message%", Matcher.quoteReplacement(msg)))).create());
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', BungeeStaffChat.getInstance()
+                                                                                      .getScMsgLayout()
+                                                                                      .replaceAll("%target%",
+                                                                                                  Matcher.quoteReplacement(
+                                                                                                          ProxyServer.getInstance()
+                                                                                                                     .getPlayer(
+                                                                                                                             target.getUniqueId())
+                                                                                                                     .getName()))
+                                                                                      .replaceAll("%message%",
+                                                                                                  Matcher.quoteReplacement(
+                                                                                                          msg))));
 
         BungeeStaffChat.getInstance()
                        .getProxy()
                        .getPlayer(target.getUniqueId())
-                       .sendMessage(
-                               new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', scReply)).create());
+                       .sendMessage(ChatColor.translateAlternateColorCodes('&', scReply));
+
+        for (ScPlayer p : BungeeStaffChat.getInstance().getPlayerManager().getPlayers())
+        {
+            if (p.hasScSpy())
+            {
+                ProxiedPlayer spyPlayer = ProxyServer.getInstance().getPlayer(player.getUniqueId());
+
+                if (spyPlayer != null)
+                {
+                    spyPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', BungeeStaffChat.getInstance().getScSpyLayout().replaceAll("%from%", Matcher.quoteReplacement(sender.getName())).replaceAll("%message%", Matcher.quoteReplacement(msg)).replaceAll("%target%", ProxyServer.getInstance().getPlayer(target.getUniqueId()).getName())));
+                }
+            }
+        }
     }
 }

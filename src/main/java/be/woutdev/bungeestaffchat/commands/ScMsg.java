@@ -110,8 +110,21 @@ public class ScMsg extends Command
         targetPlayer.setLastMsgSender(
                 sender instanceof ProxiedPlayer ? (((ProxiedPlayer) sender).getUniqueId()) : UUID.randomUUID());
 
-        sender.sendMessage(new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', scMsg)).create());
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', scMsg));
 
-        ProxyServer.getInstance().getPlayer(target).sendMessage(new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', BungeeStaffChat.getInstance().getScReplyLayout().replaceAll("%from%", Matcher.quoteReplacement(sender.getName())).replaceAll("%message%", Matcher.quoteReplacement(msg)))).create());
+        ProxyServer.getInstance().getPlayer(target).sendMessage(ChatColor.translateAlternateColorCodes('&', BungeeStaffChat.getInstance().getScReplyLayout().replaceAll("%from%", Matcher.quoteReplacement(sender.getName())).replaceAll("%message%", Matcher.quoteReplacement(msg))));
+
+        for (ScPlayer player : BungeeStaffChat.getInstance().getPlayerManager().getPlayers())
+        {
+            if (player.hasScSpy())
+            {
+                ProxiedPlayer spyPlayer = ProxyServer.getInstance().getPlayer(player.getUniqueId());
+
+                if (spyPlayer != null)
+                {
+                    spyPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', BungeeStaffChat.getInstance().getScSpyLayout().replaceAll("%from%", Matcher.quoteReplacement(sender.getName())).replaceAll("%message%", Matcher.quoteReplacement(msg)).replaceAll("%target%", ProxyServer.getInstance().getPlayer(targetPlayer.getUniqueId()).getName())));
+                }
+            }
+        }
     }
 }

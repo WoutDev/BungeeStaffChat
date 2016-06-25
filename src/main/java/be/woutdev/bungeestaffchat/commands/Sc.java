@@ -109,9 +109,14 @@ public class Sc extends Command
 
                     if (!targetPlayer.isScDisabled())
                     {
-                        player.sendMessage(new ComponentBuilder(scMessage).create());
+                        player.sendMessage(scMessage);
                     }
                 }
+            }
+
+            if (BungeeStaffChat.getInstance().keepLog())
+            {
+                BungeeStaffChat.getInstance().appendToLog(ChatColor.stripColor(scMessage));
             }
 
             return;
@@ -121,7 +126,6 @@ public class Sc extends Command
                                                                                        BungeeStaffChat.getInstance()
                                                                                                       .getLang()
                                                                                                       .getString(
-                                                                                                              "no-permission")))
-                                   .create());
+                                                                                                              "no-permission"))).create());
     }
 }
