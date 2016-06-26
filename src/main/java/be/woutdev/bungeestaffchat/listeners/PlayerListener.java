@@ -38,7 +38,7 @@ public class PlayerListener implements Listener
     @EventHandler
     public void onPlayerChat(ChatEvent e)
     {
-        if (e.getMessage().equalsIgnoreCase("/sctoggle"))
+        if (e.getMessage().startsWith("/"))
         {
             return;
         }
