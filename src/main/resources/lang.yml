@@ -1,7 +1,7 @@
 no-permission: "&cYou have no permission to execute this command!"
 sc-enable: "&aYou enabled staffchat!"
 sc-disable: "&cYou disabled staffchat!"
-sc-toggle-enable: "&aYou enabled staffhcat toggle!"
+sc-toggle-enable: "&aYou enabled staffchat toggle!"
 sc-toggle-disable: "&cYou disabled staffchat toggle!"
 sc-msg-invalid-args: "&cUsage: /scmsg <player> <msg>"
 sc-msg-invalid-player: "&cThat player is currently not online!"
