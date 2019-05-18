@@ -69,17 +69,11 @@ public class Sc extends Command {
                     .replaceAll("%message%", Matcher.quoteReplacement(msg))
                     .replaceAll("%server%", Matcher.quoteReplacement(server));
 
-            if (BungeeStaffChat.getInstance().isBungeePerms()) {
+            if (BungeeStaffChat.getPermissionHandler() != null) {
                 if (sender instanceof ProxiedPlayer) {
-                    scMessage = scMessage.replaceAll("%group%", Matcher.quoteReplacement(BungeePerms.getInstance()
-                            .getPermissionsManager()
-                            .getMainGroup(
-                                    BungeePerms.getInstance()
-                                            .getPermissionsManager()
-                                            .getUser(
-                                                    ((ProxiedPlayer) sender)
-                                                            .getUniqueId()))
-                            .getName()));
+                    scMessage = scMessage.replaceAll("%group%", Matcher.quoteReplacement(
+                            BungeeStaffChat.getPermissionHandler().getPrimaryGroup(((ProxiedPlayer) sender).getUniqueId())
+                    ));
                 } else {
                     scMessage = scMessage.replaceAll("%group%", "CONSOLE");
                 }

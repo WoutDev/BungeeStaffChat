@@ -78,15 +78,10 @@ public class ScReply extends Command {
 
         String server = ((ProxiedPlayer) sender).getServer().getInfo().getName();
 
-        if (BungeeStaffChat.getInstance().isBungeePerms()) {
-            msg = msg.replaceAll("%group%", Matcher.quoteReplacement(BungeePerms.getInstance()
-                    .getPermissionsManager()
-                    .getMainGroup(BungeePerms.getInstance()
-                            .getPermissionsManager()
-                            .getUser(
-                                    ((ProxiedPlayer) sender)
-                                            .getUniqueId()))
-                    .getName()));
+        if (BungeeStaffChat.getPermissionHandler() != null) {
+            msg = msg.replaceAll("%group%", Matcher.quoteReplacement(
+                    BungeeStaffChat.getPermissionHandler().getPrimaryGroup(((ProxiedPlayer) sender).getUniqueId())
+            ));
         }
 
         String scReply = BungeeStaffChat.getInstance()

@@ -2,7 +2,11 @@ package be.woutdev.bungeestaffchat;
 
 import be.woutdev.bungeestaffchat.commands.*;
 import be.woutdev.bungeestaffchat.listeners.PlayerListener;
+import be.woutdev.bungeestaffchat.permissions.BungeePermsHandler;
+import be.woutdev.bungeestaffchat.permissions.IPermissionHandler;
+import be.woutdev.bungeestaffchat.permissions.LuckPermsHandler;
 import be.woutdev.bungeestaffchat.player.ScPlayerManager;
+import net.alpenblock.bungeeperms.platform.bungee.BungeeConfig;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
@@ -24,7 +28,6 @@ import java.util.Date;
  * Created by Wout on 14/04/2016.
  */
 public class BungeeStaffChat extends Plugin {
-    private static final String VERSION = "2.0-BETA";
     private static BungeeStaffChat instance;
     private ScPlayerManager playerManager;
     private Configuration config;
@@ -36,16 +39,16 @@ public class BungeeStaffChat extends Plugin {
     private String scReplyLayout;
     private String scSpyLayout;
     private boolean scPriorityEnabled;
-    private boolean bungeePerms;
     private boolean keepLog;
     private Path logPath;
+    private static IPermissionHandler permissionHandler = null;
 
     public static BungeeStaffChat getInstance() {
         return instance;
     }
 
     public static String getVersion() {
-        return VERSION;
+        return instance.getDescription().getVersion();
     }
 
     @Override
@@ -81,7 +84,9 @@ public class BungeeStaffChat extends Plugin {
         scPriorityEnabled = false;
 
         if (getProxy().getPluginManager().getPlugin("BungeePerms") != null) {
-            bungeePerms = true;
+            permissionHandler = new BungeePermsHandler();
+        } else if (getProxy().getPluginManager().getPlugin("LuckPerms") != null) {
+            permissionHandler = new LuckPermsHandler();
         }
     }
 
@@ -122,28 +127,7 @@ public class BungeeStaffChat extends Plugin {
         }
 
         // Load configuration settings
-        scLayout = getConfig().getString("sc-layout");
-        scMsgLayout = getConfig().getString("scmsg-layout");
-        scReplyLayout = getConfig().getString("screply-layout");
-        scSpyLayout = getConfig().getString("scspy-layout");
-        shortcutEnabled = getConfig().getBoolean("shortcut-enabled", false);
-        keepLog = getConfig().getBoolean("keep-log", false);
-
-        if (shortcutEnabled) {
-            shortcut = getConfig().getString("shortcut").toCharArray()[0];
-        }
-
-        if (keepLog) {
-            logPath = Paths.get(dirPath.toAbsolutePath().toString(), "staffchat.log");
-
-            if (!Files.exists(logPath)) {
-                try {
-                    Files.createFile(logPath);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        loadConfigSettings(dirPath);
     }
 
     public Configuration getConfig() {
@@ -190,10 +174,6 @@ public class BungeeStaffChat extends Plugin {
         this.scPriorityEnabled = scPriorityEnabled;
     }
 
-    public boolean isBungeePerms() {
-        return bungeePerms;
-    }
-
     public boolean keepLog() {
         return keepLog;
     }
@@ -221,6 +201,10 @@ public class BungeeStaffChat extends Plugin {
         }
 
         // Load configuration settings
+        loadConfigSettings(getDataFolder().toPath());
+    }
+
+    private void loadConfigSettings(Path path) {
         scLayout = getConfig().getString("sc-layout");
         scMsgLayout = getConfig().getString("scmsg-layout");
         scReplyLayout = getConfig().getString("screply-layout");
@@ -233,7 +217,7 @@ public class BungeeStaffChat extends Plugin {
         }
 
         if (keepLog) {
-            logPath = Paths.get(getDataFolder().toPath().toAbsolutePath().toString(), "staffchat.log");
+            logPath = Paths.get(path.toAbsolutePath().toString(), "staffchat.log");
 
             if (!Files.exists(logPath)) {
                 try {
@@ -243,5 +227,9 @@ public class BungeeStaffChat extends Plugin {
                 }
             }
         }
+    }
+
+    public static IPermissionHandler getPermissionHandler() {
+        return permissionHandler;
     }
 }

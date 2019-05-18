@@ -1,5 +1,6 @@
 package be.woutdev.bungeestaffchat.commands;
 
+import be.woutdev.bungeestaffchat.BungeeStaffChat;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -18,7 +19,7 @@ public class ScInfo extends Command {
         sender.sendMessage(new ComponentBuilder("We're using").color(ChatColor.YELLOW)
                 .append(" BungeeStaffChat ")
                 .color(ChatColor.AQUA)
-                .append("version 2.0-BETA by")
+                .append( " " + BungeeStaffChat.getVersion() + " by")
                 .color(ChatColor.YELLOW)
                 .append(" WoutDev")
                 .color(ChatColor.AQUA)

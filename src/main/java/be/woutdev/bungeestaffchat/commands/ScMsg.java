@@ -69,15 +69,11 @@ public class ScMsg extends Command {
             msg = ChatColor.translateAlternateColorCodes('&', msg);
         }
 
-        if (BungeeStaffChat.getInstance().isBungeePerms()) {
+        if (BungeeStaffChat.getPermissionHandler() != null) {
             if (sender instanceof ProxiedPlayer) {
                 msg = msg.replaceAll(Matcher.quoteReplacement("%group%"), Matcher.quoteReplacement(
-                        BungeePerms.getInstance()
-                                .getPermissionsManager()
-                                .getMainGroup(BungeePerms.getInstance()
-                                        .getPermissionsManager()
-                                        .getUser(((ProxiedPlayer) sender).getUniqueId()))
-                                .getName()));
+                        BungeeStaffChat.getPermissionHandler().getPrimaryGroup(((ProxiedPlayer) sender).getUniqueId())
+                ));
             } else {
                 msg = msg.replaceAll(Matcher.quoteReplacement("%group%"), "CONSOLE");
             }
