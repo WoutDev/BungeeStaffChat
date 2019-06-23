@@ -13,77 +13,66 @@ import net.md_5.bungee.event.EventHandler;
 /**
  * Created by Wout on 14/04/2016.
  */
-public class PlayerListener implements Listener
-{
+public class PlayerListener implements Listener {
     @EventHandler
-    public void onPlayerConnect(PostLoginEvent e)
-    {
+    public void onPlayerConnect(PostLoginEvent e) {
         BungeeStaffChat.getInstance().getPlayerManager().addPlayer(e.getPlayer().getUniqueId());
 
-        if (e.getPlayer().hasPermission("sc.notifyupdate") || e.getPlayer().hasPermission("sc.*"))
-        {
+        if (e.getPlayer().hasPermission("sc.notifyupdate") || e.getPlayer().hasPermission("sc.*")) {
             BungeeStaffChat.getInstance()
-                           .getProxy()
-                           .getScheduler()
-                           .runAsync(BungeeStaffChat.getInstance(), new PluginUpdater(e.getPlayer()));
+                    .getProxy()
+                    .getScheduler()
+                    .runAsync(BungeeStaffChat.getInstance(), new PluginUpdater(e.getPlayer()));
         }
     }
 
     @EventHandler
-    public void onPlayerDisconnect(PlayerDisconnectEvent e)
-    {
+    public void onPlayerDisconnect(PlayerDisconnectEvent e) {
         BungeeStaffChat.getInstance().getPlayerManager().removePlayer(e.getPlayer().getUniqueId());
     }
 
     @EventHandler
-    public void onPlayerChat(ChatEvent e)
-    {
-        if (e.isCommand())
-        {
+    public void onPlayerChat(ChatEvent e) {
+        if (e.isCommand()) {
             return;
         }
 
         ProxiedPlayer pp = (ProxiedPlayer) e.getSender();
 
-        if (pp.hasPermission("sc.toggle") || pp.hasPermission("sc.*"))
-        {
+        if (pp.hasPermission("sc.toggle") || pp.hasPermission("sc.*")) {
             ScPlayer player = BungeeStaffChat.getInstance().getPlayerManager().getPlayer(pp.getUniqueId());
 
-            if (player.isScToggled())
-            {
+            if (player.isScToggled()) {
                 e.setCancelled(true);
 
                 BungeeStaffChat.getInstance()
-                               .getProxy()
-                               .getPluginManager()
-                               .dispatchCommand(pp, BungeeStaffChat.getInstance()
-                                                                   .getConfig()
-                                                                   .getString("sc-command")
-                                                                   .replaceAll("/", "") + " " + e.getMessage());
+                        .getProxy()
+                        .getPluginManager()
+                        .dispatchCommand(pp, BungeeStaffChat.getInstance()
+                                .getConfig()
+                                .getString("sc-command")
+                                .replaceAll("/", "") + " " + e.getMessage());
                 return;
             }
         }
 
-        if (BungeeStaffChat.getInstance().isShortcutEnabled())
-        {
-            if (pp.hasPermission("sc.shortcut") || pp.hasPermission("sc.*"))
-            {
+        if (BungeeStaffChat.getInstance().isShortcutEnabled()) {
+            if (pp.hasPermission("sc.shortcut") || pp.hasPermission("sc.*")) {
                 System.out.println(BungeeStaffChat.getInstance().getShortcut());
-                if (e.getMessage().toCharArray()[0] == BungeeStaffChat.getInstance().getShortcut())
-                {
+                if (e.getMessage().toCharArray()[0] == BungeeStaffChat.getInstance().getShortcut()) {
                     if (e.getMessage().length() == 1)
                         return;
 
                     e.setCancelled(true);
 
                     BungeeStaffChat.getInstance()
-                                   .getProxy()
-                                   .getPluginManager()
-                                   .dispatchCommand(pp, BungeeStaffChat.getInstance()
-                                                                       .getConfig()
-                                                                       .getString("sc-command")
-                                                                       .replaceAll("/", "") + " " +
-                                                        e.getMessage().substring(1, e.getMessage().length()));
+                            .getProxy()
+                            .getPluginManager()
+                            .dispatchCommand(pp, BungeeStaffChat.getInstance()
+                                    .getConfig()
+                                    .getString("sc-command")
+                                    .replaceAll("/", "") + " " +
+                                    e.getMessage().substring(1, e.getMessage().length()));
                 }
             }
         }

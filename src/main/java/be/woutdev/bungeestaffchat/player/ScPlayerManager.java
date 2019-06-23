@@ -7,21 +7,16 @@ import java.util.UUID;
 /**
  * Created by Wout on 14/04/2016.
  */
-public class ScPlayerManager
-{
+public class ScPlayerManager {
     private Set<ScPlayer> players;
 
-    public ScPlayerManager()
-    {
+    public ScPlayerManager() {
         players = new HashSet<ScPlayer>();
     }
 
-    public ScPlayer getPlayer(UUID uuid)
-    {
-        for (ScPlayer player : players)
-        {
-            if (player.getUniqueId().equals(uuid))
-            {
+    public ScPlayer getPlayer(UUID uuid) {
+        for (ScPlayer player : players) {
+            if (player.getUniqueId().equals(uuid)) {
                 return player;
             }
         }
@@ -29,18 +24,15 @@ public class ScPlayerManager
         return null;
     }
 
-    public void addPlayer(UUID uuid)
-    {
+    public void addPlayer(UUID uuid) {
         players.add(new ScPlayer(uuid));
     }
 
-    public void removePlayer(UUID uuid)
-    {
+    public void removePlayer(UUID uuid) {
         players.remove(getPlayer(uuid));
     }
 
-    public Set<ScPlayer> getPlayers()
-    {
+    public Set<ScPlayer> getPlayers() {
         return players;
     }
 }

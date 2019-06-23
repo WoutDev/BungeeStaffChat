@@ -15,34 +15,28 @@ import java.net.URL;
 /**
  * Created by Wout on 15/04/2016.
  */
-public class PluginUpdater implements Runnable
-{
+public class PluginUpdater implements Runnable {
     private ProxiedPlayer pp;
 
-    public PluginUpdater(ProxiedPlayer pp)
-    {
+    public PluginUpdater(ProxiedPlayer pp) {
         this.pp = pp;
     }
 
     @Override
-    public void run()
-    {
-        try
-        {
+    public void run() {
+        try {
             URL url = new URL("http://www.woutdev.be/staffchat/version.txt");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
 
-            if (connection.getResponseCode() != 200)
-            {
-                if (BungeeStaffChat.getInstance().getProxy().getPlayer(pp.getUniqueId()) != null)
-                {
+            if (connection.getResponseCode() != 200) {
+                if (BungeeStaffChat.getInstance().getProxy().getPlayer(pp.getUniqueId()) != null) {
                     pp.sendMessage(new ComponentBuilder(
                             "Failed to check for new BungeeStaffChat update. Please check yourself to make sure you are up to date.")
-                                           .color(
-                                                   ChatColor.GOLD)
-                                           .create());
+                            .color(
+                                    ChatColor.GOLD)
+                            .create());
                     return;
                 }
             }
@@ -51,22 +45,16 @@ public class PluginUpdater implements Runnable
 
             String v = reader.readLine();
 
-            if (!v.equalsIgnoreCase(BungeeStaffChat.getVersion()))
-            {
-                if (BungeeStaffChat.getInstance().getProxy().getPlayer(pp.getUniqueId()) != null)
-                {
+            if (!v.equalsIgnoreCase(BungeeStaffChat.getVersion())) {
+                if (BungeeStaffChat.getInstance().getProxy().getPlayer(pp.getUniqueId()) != null) {
                     pp.sendMessage(new ComponentBuilder("New BungeeStaffChat update found! Please update to " + v +
-                                                        " to make sure you are up to date.").color(
+                            " to make sure you are up to date.").color(
                             ChatColor.GOLD).create());
                 }
             }
-        }
-        catch (MalformedURLException e)
-        {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
