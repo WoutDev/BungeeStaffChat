@@ -8,9 +8,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.YamlConfiguration;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -25,7 +23,6 @@ import java.util.Date;
  */
 public class BungeeStaffChat extends Plugin
 {
-    private static final String VERSION = "2.0-BETA";
     private static BungeeStaffChat instance;
     private ScPlayerManager playerManager;
     private Configuration config;
@@ -44,11 +41,6 @@ public class BungeeStaffChat extends Plugin
     public static BungeeStaffChat getInstance()
     {
         return instance;
-    }
-
-    public static String getVersion()
-    {
-        return VERSION;
     }
 
     @Override
