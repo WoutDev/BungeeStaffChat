@@ -2,7 +2,6 @@ package be.woutdev.bungeestaffchat.listeners;
 
 import be.woutdev.bungeestaffchat.BungeeStaffChat;
 import be.woutdev.bungeestaffchat.player.ScPlayer;
-import be.woutdev.bungeestaffchat.updater.PluginUpdater;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
@@ -19,14 +18,6 @@ public class PlayerListener implements Listener
     public void onPlayerConnect(PostLoginEvent e)
     {
         BungeeStaffChat.getInstance().getPlayerManager().addPlayer(e.getPlayer().getUniqueId());
-
-        if (e.getPlayer().hasPermission("sc.notifyupdate") || e.getPlayer().hasPermission("sc.*"))
-        {
-            BungeeStaffChat.getInstance()
-                           .getProxy()
-                           .getScheduler()
-                           .runAsync(BungeeStaffChat.getInstance(), new PluginUpdater(e.getPlayer()));
-        }
     }
 
     @EventHandler
